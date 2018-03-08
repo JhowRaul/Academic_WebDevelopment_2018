@@ -10,10 +10,14 @@ namespace ToDo.Data
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-            : base(options)
+        // Organizado na aula 5 (nada alterado)
+        public ApplicationDbContext(
+            DbContextOptions<ApplicationDbContext> options
+        ) : base(options)
         {
+
         }
+        // Fim
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -22,5 +26,9 @@ namespace ToDo.Data
             // For example, you can rename the ASP.NET Identity table names and more.
             // Add your customizations after calling base.OnModelCreating(builder);
         }
+
+        // Criado na aula 5
+        public DbSet<ToDoItem> Items { get; set; }
+        // Fim
     }
 }

@@ -26,8 +26,14 @@ namespace ToDo
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
+            // Criado na aula 5
+            var connString = Configuration.GetConnectionString("DefaultConnection");
+
+            services
+                .AddDbContext<ApplicationDbContext>
+                    (options => options
+                        .UseSqlite(connString));
+            // Fim
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -36,7 +42,9 @@ namespace ToDo
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
 
+            // Criado na aula 4
             services.AddSingleton<IToDoItemService, FakeToDoItemService>();
+            // Fim
 
             services.AddMvc();
         }
