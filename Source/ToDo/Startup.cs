@@ -43,7 +43,8 @@ namespace ToDo
             services.AddTransient<IEmailSender, EmailSender>();
 
             // Criado na aula 4
-            services.AddSingleton<IToDoItemService, FakeToDoItemService>();
+            // Removido o Fake e deixado a class original TodoItemService que tem conexão com banco
+            services.AddSingleton<IToDoItemService, ToDoItemService>();
             // Fim
 
             services.AddMvc();
