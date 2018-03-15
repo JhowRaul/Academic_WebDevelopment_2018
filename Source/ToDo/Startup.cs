@@ -44,7 +44,8 @@ namespace ToDo
 
             // Criado na aula 4
             // Removido o Fake e deixado a class original TodoItemService que tem conexão com banco
-            services.AddSingleton<IToDoItemService, ToDoItemService>();
+     //       services.AddSingleton<IToDoItemService, ToDoItemService>();
+            services.AddScoped<IToDoItemService, ToDoItemService>();
             // Fim
 
             services.AddMvc();

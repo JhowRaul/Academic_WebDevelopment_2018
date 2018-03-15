@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using ToDo.Models.View;
 using ToDo.Services;
 using System.Threading.Tasks;
+using ToDo.Models;
 
 namespace ToDo.Controllers
 {
@@ -26,6 +27,20 @@ namespace ToDo.Controllers
             };
             // Retornar View
             return View(viewModel);
+        }
+
+        public async Task<IActionResult> AddItem (NewToDoItem newToDoItem)
+        {
+            if(!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var sucessful = await _todoItemsService
+                .AddItemAsync(newToDoItem);
+
+            if (!sucessful)
+                return BadRequest(new { Error = "Could not add Item" });
+
+                return Ok();
         }
     }
 }

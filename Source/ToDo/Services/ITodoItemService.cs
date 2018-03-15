@@ -9,5 +9,6 @@ namespace ToDo.Services
     {
         // Criação de interface
         Task<IEnumerable<ToDoItem>> GetIncompleteItemsAsync();
+        Task<bool> AddItemAsync (NewToDoItem newToDoItem);
     }
 }
