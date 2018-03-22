@@ -1,0 +1,76 @@
+public interface ICalculadora {
+    double CalcularSalario();
+}
+
+public class Gerente : Funcionario, ICalculadora
+{
+    public double CalcularSalario()
+    {
+        var salario = 1000.00;
+        salario += 10%;
+
+        return salario;
+    }
+}
+
+public class Desenvolvedor : Funcionario, ICalculadora
+{
+    public double CalcularSalario()
+    {
+        var salario = 1500.00;
+        return salario;
+    }
+}
+
+//Startup.cs
+public void ConfigureServices(){
+    /// código
+    services.AddTransiente<ICalculadora, Gerente>();
+    services.AddTransiente<ICalculadora, Desenvolvedor>();
+}
+
+public class  MinhaController: Controller
+{
+    private readonly ICalculadora _gerente;
+    private readonly ICalculadora _desenvolvedor;
+    private readonly IFuncionarioService _funcionarioService;
+
+    public MinhaController(
+        ICalculadora gerente,
+        ICalculadora desenvolvedor,
+        IFuncionarioService service
+    )
+    {
+        _gerente = gerente;
+        _desenvolvedor = desenvolvedor;
+        _funcionarioService = service;
+    }
+
+    public IActionResult Index() {
+        var salarioGer = gerente.CalcularSalario();
+        var salarioDev = desenvolvedor.CalcularSalario();
+
+        _funcionarioService.SalvarSalarios(salarioGer, salarioDev);
+    }
+}
+
+public class FuncionarioService : IFuncionarioService
+{
+    public void SalvarSalarios(...) {
+        // salva dados
+        dadosContext.Salvar(...);
+    }
+}
+
+public class MinhaAplicaoDbContext : MinhaAplicaoDbContext
+{
+    public void Salvar() {
+        // salvar no cache
+        // salva SqlServer
+    }
+
+    public void Buscar() {
+        // verifica se tem no cache
+        // busca no banco
+    }
+}

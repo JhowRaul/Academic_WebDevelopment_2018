@@ -26,15 +26,16 @@ namespace ToDo.Services
             return items;
         }
 
-        public async Task<bool> AddItemAsync (NewToDoItem newToDoItem) {
+        public async Task<bool> AddItemAsync (NewToDoItem newToDoItem)
+        {
             var entity = new ToDoItem
             {
                 Id = Guid.NewGuid(),
                 IsDone = false,
                 Title = newToDoItem.Title,
-                DueAt = DateTimeOffset.Now.AddDays(3)
-        //        UpUntil = newToDoItem.DateTimeOffset
+                DueAt = newToDoItem.DueAt
             };
+
             _context.Items.Add(entity);
             var saveResult = await _context.SaveChangesAsync();
             return saveResult == 1;

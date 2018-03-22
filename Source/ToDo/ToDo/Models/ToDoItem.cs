@@ -9,6 +9,6 @@ namespace ToDo.Models
         public bool IsDone { get; set; }
         public string Title { get; set; }
         public DateTimeOffset? DueAt { get; set; }
-   //     public DateTimeOffset UpUntil { get; set; }
+        public DateTimeOffset UpUntil { get; set; }
     }
 }
