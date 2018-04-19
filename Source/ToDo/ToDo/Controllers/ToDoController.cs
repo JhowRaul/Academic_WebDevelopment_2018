@@ -41,13 +41,14 @@ namespace ToDo.Controllers
             return View(viewModel);
         }
 
-        public async Task<IActionResult> AddItem (NewToDoItem newToDoItem, ApplicationUser currentUser)
+        public async Task<IActionResult> AddItem (NewToDoItem newToDoItem)
         {
-            if (currentUser == null)
-                return Unauthorized();
-
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
+
+            var currentUser = await _userManager.GetUserAsync(User);
+            if (currentUser == null)
+                return Unauthorized();
 
             var sucessful = await _todoItemsService
                 .AddItemAsync(newToDoItem, currentUser);
@@ -58,13 +59,14 @@ namespace ToDo.Controllers
                 return Ok();
         }
 
-        public async Task<IActionResult> MarkDone(Guid id, ApplicationUser currentUser)
+        public async Task<IActionResult> MarkDone(Guid id)
         {
-            if (currentUser == null)
-                return Unauthorized();
-
             if (id == Guid.Empty)
                 return BadRequest();
+
+            var currentUser = await _userManager.GetUserAsync(User);
+            if (currentUser == null)
+                return Unauthorized();
 
             var sucessful = await _todoItemsService
                 .MarkDoneAsync(id, currentUser);

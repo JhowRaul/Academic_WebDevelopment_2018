@@ -21,7 +21,9 @@ namespace ToDo.Services
         // Função assincrona tem q estar especificado async
         public async Task<IEnumerable<ToDoItem>> GetIncompleteItemsAsync(ApplicationUser currentUser) {
             var items = await _context.Items
-                .Where(x => x.IsDone == false)
+                .Where(x => 
+                    x.IsDone == false &&
+                    x.OwnerId == currentUser.Id)
                 .ToArrayAsync();
 
             return items;
@@ -46,7 +48,9 @@ namespace ToDo.Services
         public async Task<bool> MarkDoneAsync(Guid id, ApplicationUser currentUser)
         {
             var item = await _context.Items
-                .Where(x => x.Id == id)
+                .Where(x =>
+                    x.Id == id &&
+                    x.OwnerId == currentUser.Id)
                 .SingleOrDefaultAsync();
 
             if (item == null)
