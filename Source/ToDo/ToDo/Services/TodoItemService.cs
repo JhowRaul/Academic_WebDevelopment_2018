@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using ToDo.Data;
 using ToDo.Models;
+using Microsoft.AspNetCore.Identity;
 
 // Aula 5
 namespace ToDo.Services
@@ -18,7 +19,7 @@ namespace ToDo.Services
         }
         
         // Função assincrona tem q estar especificado async
-        public async Task<IEnumerable<ToDoItem>> GetIncompleteItemsAsync() {
+        public async Task<IEnumerable<ToDoItem>> GetIncompleteItemsAsync(ApplicationUser currentUser) {
             var items = await _context.Items
                 .Where(x => x.IsDone == false)
                 .ToArrayAsync();
@@ -26,14 +27,15 @@ namespace ToDo.Services
             return items;
         }
 
-        public async Task<bool> AddItemAsync (NewToDoItem newToDoItem)
+        public async Task<bool> AddItemAsync (NewToDoItem newToDoItem, ApplicationUser currentUser)
         {
             var entity = new ToDoItem
             {
                 Id = Guid.NewGuid(),
                 IsDone = false,
                 Title = newToDoItem.Title,
-                DueAt = newToDoItem.DueAt
+                DueAt = newToDoItem.DueAt,
+                OwnerId = currentUser.Id
             };
 
             _context.Items.Add(entity);
@@ -41,7 +43,7 @@ namespace ToDo.Services
             return saveResult == 1;
         }
 
-        public async Task<bool> MarkDoneAsync(Guid id)
+        public async Task<bool> MarkDoneAsync(Guid id, ApplicationUser currentUser)
         {
             var item = await _context.Items
                 .Where(x => x.Id == id)

@@ -10,5 +10,7 @@ namespace ToDo.Models
         public string Title { get; set; }
         public DateTimeOffset? DueAt { get; set; }
         public DateTimeOffset UpUntil { get; set; }
+        public string OwnerId { get; set; }
+        
     }
 }
