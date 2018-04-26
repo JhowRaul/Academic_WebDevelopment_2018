@@ -29,6 +29,9 @@ namespace ToDo.Data
 
         // Criado na aula 5
         public DbSet<ToDoItem> Items { get; set; }
+
+        // Criado na aula 5
+        public DbSet<ToDo.Models.ApplicationUser> ApplicationUser { get; set; }
         // Fim
     }
 }
